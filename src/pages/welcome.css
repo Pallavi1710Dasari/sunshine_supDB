@@ -1,0 +1,25 @@
+/* .background-welcome{
+    background-color: red;
+    height:auto;   
+}
+.side-bar{
+    width:30vw;
+    background-color: blue;
+    height:100vh;
+}
+.maincontent{
+    background-color: green;
+    width:70w;
+    height:100vh;
+} */
+.welcom-container {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #cbceced2;
+  }
+  .notification-icon{
+    height: 30px;
+    width:30px;
+  }
+  

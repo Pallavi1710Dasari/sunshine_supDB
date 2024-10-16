@@ -1,8 +1,10 @@
 import React from 'react';
 import { Grid, Paper, Typography, Box, Button, Avatar, IconButton, Divider } from '@mui/material';
 import { PhotoCamera } from '@mui/icons-material';
+import {useNavigate } from 'react-router-dom';
 
 export const EditProfileView = () => {
+  const navigate=useNavigate();
   return (
     <Box p={2}>
       <Grid container spacing={2} >
@@ -68,7 +70,9 @@ export const EditProfileView = () => {
             <Typography sx={{padding:'5px'}} variant="body2">Balaghat </Typography>
             <Divider />
             <Box sx={{display:'flex', justifyContent:'space-between'}} >
-                <Button variant="contained" sx={{ marginTop: '10px', height:'35px', width:'50px', backgroundColor:'#490de0',  fontSize:'12px',  }}>Edit</Button>
+                <Button onClick={()=>{
+                  navigate('/editRecord')
+                }} variant="contained" sx={{ marginTop: '10px', height:'35px', width:'50px', backgroundColor:'#490de0',  fontSize:'12px',  }}>Edit</Button>
                 <Button variant="contained" sx={{ marginTop: '10px',height:'35px', width:'150px', backgroundColor:'#04Be5B',  fontSize:'10px',  }}>Download Application</Button>
             </Box>
           </Paper>

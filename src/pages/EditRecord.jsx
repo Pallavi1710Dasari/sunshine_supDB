@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Box, IconButton, Drawer, Grid } from '@mui/material';
 import Sidebar from '../components/Sidebar';
-import MainContent from '../components/WelcomeComponents/MainContent';
 import { IoMdNotifications, IoMdMenu } from "react-icons/io";
 import { useMediaQuery } from '@mui/material';
 import './welcome.css';
+import EditRecordForm from '../components/EditRecordForm';
 
-export const Welcome = () => {
+export const EditRecord = () => {
   const [showNotification, setShowNotification] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
@@ -95,7 +95,7 @@ export const Welcome = () => {
             height: 'auto',
           }}
         >
-          <MainContent showNotification={showNotification} toggleNotification={toggleNotification} />
+          <EditRecordForm showNotification={showNotification} toggleNotification={toggleNotification} />
         </Box>
       </Box>
 

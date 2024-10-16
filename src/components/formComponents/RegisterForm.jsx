@@ -1,21 +1,21 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { useQuery, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
   TextField,
   Button,
   MenuItem,
-  CircularProgress,
   Box,
   Paper,
+  useTheme,
+  useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/auth"; // Import API calls
 import bg from "../../assets/images/bg.png";
-import { CgProfile } from "react-icons/cg";
-import { FaEye } from "react-icons/fa";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -57,27 +57,41 @@ const RegisterForm = () => {
     });
   };
 
+  // Theme and Media Queries for responsiveness
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
+
   return (
-    <Box sx={{ height: "100vh", width: "100wv", display: "flex" }}>
+    <Box
+      sx={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        flexDirection: isMobile || isTablet ? "column" : "row",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#f3f4f7",
+      }}
+    >
+      {/* Form Section */}
       <Paper
         elevation={3}
         sx={{
-          width: "30%",
-          height: "60%",
-          margin: "auto",
-          borderRadius: "5px",
+          width: isMobile ? "85%" : isTablet ? "80%" : "30%",
+          padding: isMobile ? "10px" : "10px",
+          borderRadius: "10px",
+          backgroundColor: "#fff",
+          opacity: "0.95",
+          marginTop: isTablet  &&  '80px'
         }}
       >
         <form
           onSubmit={handleSubmit(onSubmit)}
           style={{
-            width: "92%",
-            height: "92%",
-            margin: "auto",
             backgroundColor: "#ebedf7",
-            padding: "10px",
             borderRadius: "5px",
-            marginTop: "5px",
+            padding:'15px'
           }}
         >
           {/* Name Field */}
@@ -94,6 +108,7 @@ const RegisterForm = () => {
                 margin="normal"
                 error={!!errors.name}
                 helperText={errors.name ? errors.name.message : ""}
+                InputLabelProps={{ shrink: true }} // Fix label overlapping
               />
             )}
           />
@@ -112,6 +127,7 @@ const RegisterForm = () => {
                 margin="normal"
                 error={!!errors.email}
                 helperText={errors.email ? errors.email.message : ""}
+                InputLabelProps={{ shrink: true }} // Fix label overlapping
               />
             )}
           />
@@ -131,6 +147,7 @@ const RegisterForm = () => {
                 margin="normal"
                 error={!!errors.password}
                 helperText={errors.password ? errors.password.message : ""}
+                InputLabelProps={{ shrink: true }} // Fix label overlapping
               />
             )}
           />
@@ -150,6 +167,7 @@ const RegisterForm = () => {
                 margin="normal"
                 error={!!errors.role}
                 helperText={errors.role ? errors.role.message : ""}
+                InputLabelProps={{ shrink: true }} // Fix label overlapping
               >
                 {["supervisor"].map((role) => (
                   <MenuItem key={role} value={role}>
@@ -166,13 +184,34 @@ const RegisterForm = () => {
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ backgroundColor: "#040659" }}
+            disabled={mutation.isLoading}
+            sx={{ marginTop: "16px", backgroundColor: "#040659" }}
           >
-            Register
+            {mutation.isLoading ? <CircularProgress size={24} /> : "Register"}
           </Button>
         </form>
       </Paper>
-      <img src={bg} alt="bg" style={{ height: "100%", width: "50%" }} />
+
+      {/* Image Section */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: isMobile || isTablet ? "100%" : "50%",
+          mt: isMobile || isTablet ? 2 : 0, // Margin on top for mobile and tablet view
+        }}
+      >
+        <img
+          src={bg}
+          alt="bg"
+          style={{
+            width: isMobile || isTablet ? "90%" : "100%",
+            height: isMobile || isTablet ? "auto" : "100vh",
+            objectFit: "cover",
+          }}
+        />
+      </Box>
     </Box>
   );
 };

@@ -9,13 +9,13 @@ import {
   Alert,
   Box,
   Paper,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/auth";
 import bg from "../../assets/images/bg.png";
-import { CgProfile } from "react-icons/cg";
-import { FaEye } from "react-icons/fa";
 
 const schema = yup.object().shape({
   email: yup
@@ -64,27 +64,41 @@ const LoginForm = () => {
     mutation.mutate(data);
   };
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
-    <Box sx={{ height: "100vh", width: "100wv", display: "flex" }}>
+    <Box sx={{backgroundColor: "#f3f4f7",}}>
+    <Box
+      sx={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        flexDirection: isMobile || isTablet ? "column" : "row",
+        alignItems: "center",
+        justifyContent: "center",
+        
+      }}
+    >
+      {/* Form Section */}
       <Paper
         elevation={3}
         sx={{
-          width: "30%",
-          height: "50%",
-          margin: "auto",
-          borderRadius: "5px",
-          pt: 1,
+          width: isMobile ? "85%" : isTablet ? "80%" : "30%",
+          padding: isMobile ? "10px" : "10px",
+          borderRadius: "10px",
+          backgroundColor: "#fff",
+          opacity: "0.95",
+          zIndex: 2,
         }}
       >
         <form
           onSubmit={handleSubmit(onSubmit)}
           style={{
-            width: "92%",
-            height: "92%",
-            margin: "auto",
             backgroundColor: "#ebedf7",
-            padding: "10px",
             borderRadius: "5px",
+            padding:'15px',
           }}
         >
           {/* Display server error if any */}
@@ -107,6 +121,7 @@ const LoginForm = () => {
                 margin="normal"
                 error={!!errors.email}
                 helperText={errors.email ? errors.email.message : ""}
+                InputLabelProps={{ shrink: true }} // Fix label overlapping issue
               />
             )}
           />
@@ -126,6 +141,7 @@ const LoginForm = () => {
                 margin="normal"
                 error={!!errors.password}
                 helperText={errors.password ? errors.password.message : ""}
+                InputLabelProps={{ shrink: true }} // Fix label overlapping issue
               />
             )}
           />
@@ -143,7 +159,40 @@ const LoginForm = () => {
           </Button>
         </form>
       </Paper>
-      <img src={bg} alt="bg" style={{ height: "100%", width: "50%" }} />
+
+      {/* Image Section */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: isMobile || isTablet ? "100%" : "50%",
+          mt: isMobile || isTablet ? 2 : 0, // Margin on top for mobile and tablet view
+        }}
+      >
+        <img
+          src={bg}
+          alt="Login Illustration"
+          style={{
+            width: isMobile || isTablet ? "90%" : "100%",
+            height: isMobile || isTablet ? "auto" : "100vh",
+            objectFit: "cover",
+          }}
+        />
+      </Box>
+    </Box>
+    {/* Footer Section */}
+    <Box
+      sx={{
+        width: "100%",
+        textAlign: "center",
+        mt: 2, // Adds some space above the footer
+        color: "red", // Text color red
+        fontSize: "0.875rem", // Adjust font size if needed
+      }}
+    >
+      @Copyright 2024 Suryoday Foundation. All Rights Reserved
+    </Box>
     </Box>
   );
 };
